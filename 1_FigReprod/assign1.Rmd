@@ -48,3 +48,31 @@ ggplot(df, aes(x = as.factor(Day), y = CER, color = as.factor(Day), shape = Cond
   theme(legend.position = c(0.05, 1), legend.justification = c(0, 1))
 
 ```
+
+```{r}
+ggplot(df, aes(x = as.factor(Day), y = CER, color = as.factor(Day), shape = Condition, group=Condition)) +
+  geom_point(position = position_dodge(width = 0.5), size = 3, stroke=1.5) +
+  scale_color_manual(values = c("#1F65CC", "#00d9d9", "#48C353", "#dacd0a", "#db6a00")) +
+  #scale_shape_manual(values = c("LM" = 22, "Raw Output" = 16)) +
+  scale_shape_manual(
+    values = c("Raw Output" = 16, "LM" = 22),
+    labels = c("Raw output", "With offline language model"),
+    limits = c("Raw Output", "LM")
+  ) +
+  labs(
+    x = "Trial Day",
+    y = "Character Error Rate (%)"
+  ) +
+  ylim(0, 20) +
+  scale_x_discrete(labels = c("1,211", "1,218", "1,220", "1,237", "1,239")) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(color = guide_none(),
+         shape = guide_legend(title=NULL)) +
+  theme(legend.position = c(0.05, 1), legend.justification = c(0, 1))
+
+```
+
+```{r}
+
+```
