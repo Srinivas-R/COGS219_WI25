@@ -30,20 +30,24 @@ while True:
     word_stim.draw()
     win.flip()
     timer.reset()
-    key_pressed = event.waitKeys(keyList=accepted_keys)[0]
+    key_pressed_list = event.waitKeys(keyList=accepted_keys, maxWait=2)
     RTs.append(np.round(timer.getTime()*1000))
-    
-    # print(RTs)
 
-    if key_pressed == 'q':
+    if key_pressed_list is None:
+        word_stim.setText('TOO SLOW')
+        word_stim.setColor('black')
+        word_stim.draw()
+        win.flip()
+        core.wait(1)
+    elif key_pressed_list[0] == 'q':
         win.close()
         core.quit()
-    elif key_pressed == cur_stim[0]:
+    elif key_pressed_list[0] == cur_stim[0]:
         # Do nothing
         pass
     else:
-        word_stim.setColor('black')
         word_stim.setText('INCORRECT')
+        word_stim.setColor('black')
         word_stim.draw()
         win.flip()
         core.wait(1)
