@@ -5,6 +5,9 @@ import numpy as np
 import random
 from psychopy import visual,event,core,gui
 
+def make_incogruent(color, all_colors):
+    return random.choice([x for x in all_colors if x != color])
+
 stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
 accepted_keys = ['r','o','y','g','b','q']
 RTs = []
@@ -23,9 +26,13 @@ while True:
     placeholder.draw()
     win.flip()
     core.wait(0.5)
-    cur_stim = random.choice(stimuli)
-    word_stim.setText(cur_stim)
-    word_stim.setColor(cur_stim)
+    cur_text = random.choice(stimuli)
+    word_stim.setText(cur_text)
+    if np.random.rand() < 0.5:
+        cur_color = make_incogruent(cur_text, stimuli)
+    else:
+        cur_color = cur_text
+    word_stim.setColor(cur_color)
     placeholder.draw()
     word_stim.draw()
     win.flip()
@@ -42,7 +49,7 @@ while True:
     elif key_pressed_list[0] == 'q':
         win.close()
         core.quit()
-    elif key_pressed_list[0] == cur_stim[0]:
+    elif key_pressed_list[0] == cur_color[0]:
         # Do nothing
         pass
     else:
