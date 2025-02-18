@@ -33,8 +33,17 @@ while True:
     key_pressed = event.waitKeys(keyList=accepted_keys)[0]
     RTs.append(np.round(timer.getTime()*1000))
     
-    print(RTs)
+    # print(RTs)
 
     if key_pressed == 'q':
         win.close()
         core.quit()
+    elif key_pressed == cur_stim[0]:
+        # Do nothing
+        pass
+    else:
+        word_stim.setColor('black')
+        word_stim.setText('INCORRECT')
+        word_stim.draw()
+        win.flip()
+        core.wait(1)
