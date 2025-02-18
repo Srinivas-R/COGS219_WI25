@@ -1,11 +1,14 @@
 import time
 import sys
 import os
+import numpy as np
 import random
 from psychopy import visual,event,core,gui
 
 stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
 accepted_keys = ['r','o','y','g','b','q']
+RTs = []
+timer = core.Clock()
 
 win = visual.Window([800,600],color="gray", units='pix',checkTiming=False)
 fixation_cross = visual.TextStim(win,text="+", height=15, color="black",pos=[0,0])
@@ -26,12 +29,11 @@ while True:
     placeholder.draw()
     word_stim.draw()
     win.flip()
-    
+    timer.reset()
     key_pressed = event.waitKeys(keyList=accepted_keys)[0]
-    # core.wait(1.0)
-    # placeholder.draw()
-    # win.flip()
-    # core.wait(.15)
+    RTs.append(np.round(timer.getTime()*1000))
+    
+    print(RTs)
 
     if key_pressed == 'q':
         win.close()
