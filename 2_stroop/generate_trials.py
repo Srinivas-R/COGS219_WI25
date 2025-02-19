@@ -20,11 +20,7 @@ def generate_trials(subj_code: str, seed: int,num_repetitions :int =25):
     orientations = ['upright', 'upside_down']
     
     # create a trials folder if it doesn't already exist
-    try:
-        os.mkdir('trials')
-    except FileExistsError:
-        print('Trials directory exists; doing nothing')
-        return 
+    os.makedirs('trials', exist_ok=True)
     
     # write code to loop through creating and adding trials to the file here
     trials = itertools.product(trial_types, orientations)

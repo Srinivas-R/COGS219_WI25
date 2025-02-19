@@ -2,6 +2,7 @@ import time
 import sys
 import os
 import numpy as np
+import pandas as pd
 import random
 from psychopy import visual,event,core,gui
 from generate_trials import make_incogruent, generate_trials
@@ -11,6 +12,23 @@ stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
 accepted_keys = ['r','o','y','g','b','q']
 RTs = []
 timer = core.Clock()
+
+#function for collecting runtime variables
+def get_runtime_vars(vars_to_get,order,exp_version="Stroop"):
+    infoDlg = gui.DlgFromDict(dictionary=vars_to_get, title=exp_version, order=order)
+    if infoDlg.OK:
+        return vars_to_get
+    else: 
+        print('User Cancelled')
+
+# get the runtime variables
+order =  ['subj_code','seed','reps']
+runtime_vars = get_runtime_vars({'subj_code':'stroop_00','seed': 42, 'reps': 25}, order)
+
+#add the import_trials function we've used in previous assignments
+def import_trials(filepath : str) -> pd.DataFrame:
+    df = pd.read_csv(filepath)
+    return df
 
 win = visual.Window([800,600],color="gray", units='pix',checkTiming=False)
 fixation_cross = visual.TextStim(win,text="+", height=15, color="black",pos=[0,0])
