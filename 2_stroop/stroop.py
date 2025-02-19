@@ -4,9 +4,8 @@ import os
 import numpy as np
 import random
 from psychopy import visual,event,core,gui
+from generate_trials import make_incogruent, generate_trials
 
-def make_incogruent(color, all_colors):
-    return random.choice([x for x in all_colors if x != color])
 
 stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
 accepted_keys = ['r','o','y','g','b','q']
