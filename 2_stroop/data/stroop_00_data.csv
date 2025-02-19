@@ -1,0 +1,9 @@
+trial_num,response,is_correct,rt,Unnamed: 0,subj_code,seed,word,color,trial_type,orientation
+0,o,1,980.0,0,stroop_00,42,orange,orange,congruent,upside_down
+1,b,1,1660.0,1,stroop_00,42,orange,blue,incongruent,upside_down
+2,r,1,1812.0,2,stroop_00,42,yellow,red,incongruent,upright
+3,r,1,934.0,3,stroop_00,42,red,red,congruent,upright
+4,o,1,1049.0,4,stroop_00,42,orange,orange,congruent,upright
+5,o,1,1274.0,5,stroop_00,42,red,orange,incongruent,upright
+6,b,0,1582.0,6,stroop_00,42,blue,red,incongruent,upside_down
+7,NA,0,2000.0,7,stroop_00,42,red,red,congruent,upside_down

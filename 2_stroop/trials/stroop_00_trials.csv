@@ -1,0 +1,9 @@
+,subj_code,seed,word,color,trial_type,orientation
+0,stroop_00,42,orange,orange,congruent,upside_down
+1,stroop_00,42,orange,blue,incongruent,upside_down
+2,stroop_00,42,yellow,red,incongruent,upright
+3,stroop_00,42,red,red,congruent,upright
+4,stroop_00,42,orange,orange,congruent,upright
+5,stroop_00,42,red,orange,incongruent,upright
+6,stroop_00,42,blue,red,incongruent,upside_down
+7,stroop_00,42,red,red,congruent,upside_down
