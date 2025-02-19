@@ -32,6 +32,11 @@ runtime_vars = get_runtime_vars({'subj_code':'stroop_00','seed': 42, 'reps': 25}
 # generate a trial list
 generate_trials(runtime_vars['subj_code'],runtime_vars['seed'],runtime_vars['reps'])
 
+# Output file
+os.makedirs('data', exist_ok=True)
+output_path = os.path.join(os.getcwd(),'data',runtime_vars['subj_code']+'_data.csv')
+output_exists = False
+
 #read in trials
 trial_path = os.path.join(os.getcwd(),'trials',runtime_vars['subj_code']+'_trials.csv')
 trial_df = import_trials(trial_path)
@@ -66,6 +71,7 @@ for idx, trial in trial_df.iterrows():
     key_pressed_list = event.waitKeys(keyList=accepted_keys, maxWait=2)
     RTs.append(np.round(timer.getTime()*1000))
 
+    is_correct = 0
     if key_pressed_list is None:
         word_stim.setText('TOO SLOW')
         word_stim.setOri(0)
@@ -77,7 +83,7 @@ for idx, trial in trial_df.iterrows():
         win.close()
         core.quit()
     elif key_pressed_list[0] == cur_color[0]:
-        # Do nothing
+        is_correct = 1
         pass
     else:
         word_stim.setOri(0)
@@ -86,3 +92,14 @@ for idx, trial in trial_df.iterrows():
         word_stim.draw()
         win.flip()
         core.wait(1)
+    
+    trial_output = {
+        'trial_num' : idx,
+        'response' : key_pressed_list[0] if key_pressed_list is not None else 'NA',
+        'is_correct' : is_correct,
+        'rt' : RTs[-1],
+    }
+    trial_output.update(trial)
+    temp = pd.DataFrame([trial_output])
+    temp.to_csv(output_path, mode='a', header=not output_exists, index=False)
+    output_exists = True  # After the first row, don't write headers again
