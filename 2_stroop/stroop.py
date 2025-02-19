@@ -21,21 +21,30 @@ def get_runtime_vars(vars_to_get,order,exp_version="Stroop"):
     else: 
         print('User Cancelled')
 
-# get the runtime variables
-order =  ['subj_code','seed','reps']
-runtime_vars = get_runtime_vars({'subj_code':'stroop_00','seed': 42, 'reps': 25}, order)
-
 #add the import_trials function we've used in previous assignments
 def import_trials(filepath : str) -> pd.DataFrame:
     df = pd.read_csv(filepath)
     return df
+
+# get the runtime variables
+order =  ['subj_code','seed','reps']
+runtime_vars = get_runtime_vars({'subj_code':'stroop_00','seed': 42, 'reps': 25}, order)
+# generate a trial list
+generate_trials(runtime_vars['subj_code'],runtime_vars['seed'],runtime_vars['reps'])
+
+#read in trials
+trial_path = os.path.join(os.getcwd(),'trials',runtime_vars['subj_code']+'_trials.csv')
+trial_df = import_trials(trial_path)
+print(trial_df)
 
 win = visual.Window([800,600],color="gray", units='pix',checkTiming=False)
 fixation_cross = visual.TextStim(win,text="+", height=15, color="black",pos=[0,0])
 placeholder = visual.Rect(win,width=180,height=80, fillColor="lightgray",lineColor="black", lineWidth=6,pos=[0,0])
 word_stim = visual.TextStim(win,text="", height=40, color="black",pos=[0,0])
 instruction = visual.TextStim(win,text="Press the first letter of the ink color", height=20, color="black",pos=[0,-200],autoDraw=True)
-while True:
+
+
+for idx, trial in trial_df.iterrows():
     placeholder.draw()
     fixation_cross.draw()
     win.flip()
@@ -43,13 +52,13 @@ while True:
     placeholder.draw()
     win.flip()
     core.wait(0.5)
-    cur_text = random.choice(stimuli)
+
+    cur_text = trial['word']
     word_stim.setText(cur_text)
-    if np.random.rand() < 0.5:
-        cur_color = make_incogruent(cur_text, stimuli)
-    else:
-        cur_color = cur_text
+    cur_color = trial['color']
     word_stim.setColor(cur_color)
+    word_stim.setOri(0 if trial['orientation'] == 'upright' else 180)
+
     placeholder.draw()
     word_stim.draw()
     win.flip()
@@ -59,6 +68,7 @@ while True:
 
     if key_pressed_list is None:
         word_stim.setText('TOO SLOW')
+        word_stim.setOri(0)
         word_stim.setColor('black')
         word_stim.draw()
         win.flip()
@@ -70,6 +80,7 @@ while True:
         # Do nothing
         pass
     else:
+        word_stim.setOri(0)
         word_stim.setText('INCORRECT')
         word_stim.setColor('black')
         word_stim.draw()
