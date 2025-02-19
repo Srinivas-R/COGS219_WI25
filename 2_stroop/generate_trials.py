@@ -14,7 +14,7 @@ def generate_trials(subj_code: str, seed: int,num_repetitions :int =25):
     num_repetitions: integer specifying total times that combinations of trial type (congruent vs. incongruent) and orientation (upright vs. upside_down) should repeat (total number of trials = 4 * num_repetitions)
     '''
     # define general parameters and functions here
-
+    random.seed(seed)
     stimuli = ['red', 'orange', 'yellow', 'green', 'blue']
     trial_types = ['congruent', 'incongruent']
     orientations = ['upright', 'upside_down']
@@ -32,6 +32,7 @@ def generate_trials(subj_code: str, seed: int,num_repetitions :int =25):
                word if trial_type == 'congruent' else make_incogruent(word, stimuli), 
                trial_type, 
                orientation) for ((trial_type, orientation), word) in zip(trials, words)]
+    random.shuffle(trials)
 
     df = pd.DataFrame(data=trials, columns=["subj_code", "seed", "word", "color", "trial_type", "orientation"])
     df.to_csv(f"trials/{subj_code}_trials.csv")
